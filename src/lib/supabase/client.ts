@@ -1,26 +1,24 @@
+"use client";
+
 /**
- * Browser Supabase client stub.
- * Full auth wiring is Phase 2 — this factory is ready when env vars are set.
+ * Browser Supabase client (cookie-aware via @supabase/ssr).
+ * Returns null when NEXT_PUBLIC_SUPABASE_URL / ANON_KEY are unset.
  */
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { createBrowserClient as createSSRBrowserClient } from "@supabase/ssr";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { getSupabaseEnv, isSupabaseConfigured } from "./config";
 import type { Database } from "./types";
 
 let browserClient: SupabaseClient<Database> | null = null;
 
 export function createBrowserClient(): SupabaseClient<Database> | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anon) return null;
+  const env = getSupabaseEnv();
+  if (!env) return null;
 
   if (!browserClient) {
-    browserClient = createClient<Database>(url, anon);
+    browserClient = createSSRBrowserClient<Database>(env.url, env.anonKey);
   }
   return browserClient;
 }
 
-export function isSupabaseConfigured(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  );
-}
+export { isSupabaseConfigured };

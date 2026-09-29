@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { ChatWindow } from "@/components/chat/ChatWindow";
 
 export default function ChatPage() {
@@ -14,7 +15,15 @@ export default function ChatPage() {
           MVP
         </span>
       </header>
-      <ChatWindow />
+      <Suspense
+        fallback={
+          <div className="flex flex-1 items-center justify-center text-sm text-zinc-500">
+            Loading chat…
+          </div>
+        }
+      >
+        <ChatWindow />
+      </Suspense>
     </div>
   );
 }

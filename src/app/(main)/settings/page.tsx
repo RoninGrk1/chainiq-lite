@@ -1,3 +1,6 @@
+import { AuthPanel } from "@/components/auth/AuthPanel";
+import { PreferencesForm } from "@/components/settings/PreferencesForm";
+
 export const metadata = {
   title: "Settings",
 };
@@ -8,12 +11,15 @@ export default function SettingsPage() {
       <header className="mb-6">
         <h1 className="text-xl font-semibold text-zinc-50">Settings &amp; privacy</h1>
         <p className="mt-1 text-sm text-zinc-400">
-          ChainIQ Lite is read-only and educational. Preferences sync later via
-          Supabase.
+          ChainIQ Lite is read-only and educational. Sign in to sync preferences
+          and chat history.
         </p>
       </header>
 
       <section className="space-y-4">
+        <AuthPanel />
+        <PreferencesForm />
+
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-4">
           <h2 className="text-sm font-semibold text-zinc-100">Privacy</h2>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-400">
@@ -54,7 +60,7 @@ export default function SettingsPage() {
             </div>
             <div className="flex justify-between gap-4">
               <dt>Auth / DB</dt>
-              <dd className="text-zinc-300">Supabase (stubbed)</dd>
+              <dd className="text-zinc-300">Supabase (auth + history)</dd>
             </div>
           </dl>
         </div>
